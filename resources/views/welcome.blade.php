@@ -5,8 +5,11 @@
     <link rel="stylesheet" href="front/assets/css/owl.theme.default.min.css">
 @endpush
 
+
+
 @push('scripts')
     <script src="front/assets/js/owl.carousel.min.js"></script>
+    
     <script>
         $('.owl-carousel').owlCarousel({
             loop:true,
@@ -63,13 +66,13 @@
                         <p class="text font-weight-bold text-uppercase">Info & Pengumuman</p>
                         <h4>Informasi dan Pengumuman Terbaru</h4>
                         <div class="py-4">
-                            @for($i = 1; $i < 4; $i++)
+                            @foreach ($informations as $information)
                             <div class="card mt-2">
                                 <div class="card-body">
-                                    Selama tanggal 6 - 10 Desember, siswa-siswi Smecon diharapkan untuk tidak memasuki lingkungan sekolah karena lingkungan tersebut sedang digunakan untuk kegiatan seleksi PPPK.
+                                    <p>{!! Illuminate\Support\Str::limit(Illuminate\Support\Str::markdown($information->description), 200) !!}</p>
                                 </div>
                             </div>
-                            @endfor
+                            @endforeach
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -107,23 +110,25 @@
                     </div>
                 </div>
                 <div class="row py-4">
-                    @for ($i = 1; $i <= 3; $i++)
-                    <div class="col-lg-4">
+                    @forelse($posts as $post)
+                          <div class="col-lg-4">
                         <div class="card shadow-md border-0 mb-4">
-                            <img src="{{ 'https://picsum.photos/200/300?random=' . rand(1, 1000) }}" class="card-img-top h-25" alt="...">
+                            <img src="{{  url('storage/'.$post->attachments[0]) }}" class="card-img-top h-25" alt="...">
                             <div class="card-body">
-                                <small class="text-muted mb-2">10 November 2024</small>
+                                <small class="text-muted mb-2">{{ $post->created_at->format('d M Y') }}</small>
                                 <div class="mt-3">
-                                    <h4 class="font-size-18">Judul</h4>
-                                    <p style="font-size: 13px">Ini adalah isi card body, bisa diisi dengan deskripsi tentang berita terbaru.</p>
+                                    <h4 class="font-size-18">{{ $post->title }}</h4>
+                                    <p style="font-size: 13px">{!! Illuminate\Support\Str::limit(Illuminate\Support\Str::markdown($post->description), 100) !!}.</p>
                                 </div>
                             </div>
                             <div class="p-3 d-flex justify-content-start">
-                                <a href="#" class="text-decoration-none">Baca selengkapnya</a>
+                                <a href="{{ route('news.show', $post->slug) }}" class="text-decoration-none">Baca selengkapnya</a>
                             </div>
                         </div>
                     </div>
-                    @endfor
+                    @empty
+                        <h4 class="text-center">Tidak ada berita</h4>
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -149,7 +154,7 @@
                                         {{ $home->vision }} <br>
 
                                       Misi :
-                                        {!! nl2br(e($home->mission)) !!}
+                                        {!! Illuminate\Support\Str::markdown($home->mission) !!}
 
                                     </p>
                                 </div>

@@ -24,10 +24,10 @@
                                         <a class="page-scroll" href="/">Home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="page-scroll" href="#">Galeri</a>
+                                        <a class="page-scroll" href="/gallery">Galeri</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="page-scroll" href="#">Fasilitas</a>
+                                        <a class="page-scroll" href="/fasility">Fasilitas</a>
                                     </li>
                                 </ul>
                             </div> <!-- navbar collapse -->
